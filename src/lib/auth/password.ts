@@ -1,21 +1,32 @@
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 
-export function validatePasswordStrength(password: string): { isValid: boolean; reason?: string } {
+export interface PasswordValidationResult {
+  isValid: boolean;
+  reason?: string;
+  message?: string;
+}
+
+export function validatePasswordStrength(password: string): PasswordValidationResult {
   if (!password || password.length < 8) {
-    return { isValid: false, reason: 'Password must be at least 8 characters long.' };
+    const msg = 'Password must be at least 8 characters long.';
+    return { isValid: false, reason: msg, message: msg };
   }
   if (!/[a-z]/.test(password)) {
-    return { isValid: false, reason: 'Password must contain at least one lowercase letter.' };
+    const msg = 'Password must contain at least one lowercase letter.';
+    return { isValid: false, reason: msg, message: msg };
   }
   if (!/[A-Z]/.test(password)) {
-    return { isValid: false, reason: 'Password must contain at least one uppercase letter.' };
+    const msg = 'Password must contain at least one uppercase letter.';
+    return { isValid: false, reason: msg, message: msg };
   }
   if (!/[0-9]/.test(password)) {
-    return { isValid: false, reason: 'Password must contain at least one digit.' };
+    const msg = 'Password must contain at least one digit.';
+    return { isValid: false, reason: msg, message: msg };
   }
   if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
-    return { isValid: false, reason: 'Password must contain at least one special character.' };
+    const msg = 'Password must contain at least one special character.';
+    return { isValid: false, reason: msg, message: msg };
   }
   return { isValid: true };
 }
